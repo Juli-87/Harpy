@@ -599,7 +599,7 @@ class WindTurbine(WindTurbineStructural):
         
         # Check for input file
         if (wt_file is None):
-            wt_file = './turbine_data/WT_general_properties.xlsx'
+            wt_file = './turbine_data/WT_general_properties.xls'
         
         # Overall properties
         doc = xlrd.open_workbook(wt_file, on_demand=True).sheet_by_name('Overall')

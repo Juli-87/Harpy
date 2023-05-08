@@ -1,4 +1,4 @@
-from os import system as sys
+import os
 import platform
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,17 +16,17 @@ t_start = time.time()
 
 #%%
 
-case = 'case_111'
+case = 'case_01'
 seed = -1
 save_data_on = True
 
-dynamic_stall_on = True
-dynamic_inflow_on = True
+dynamic_stall_on = False
+dynamic_inflow_on = False
 
 #%%
 
 t_min = 0.
-t_max = 1000.0
+t_max = 50.0
 delta_t = 0.02
 
 t_vec = np.arange(t_min, t_max+delta_t, delta_t)
@@ -34,7 +34,7 @@ t_vec = np.arange(t_min, t_max+delta_t, delta_t)
 #%% Wind turbine
 
 # Wind turbine characteristics file
-wt_file = './turbine_data/WT_general_properties.xlsx'
+wt_file = './turbine_data/WT_general_properties.xls'
 
 # Wind turbine object constructor
 wt = WindTurbine.construct(wt_file=wt_file, n_modes=4)
@@ -43,10 +43,10 @@ wt = WindTurbine.construct(wt_file=wt_file, n_modes=4)
 wt.Omega_min = wt.lmbda * wt.u_cut_in / wt.R # no minimum limit for Omega
 wt.Omega = 0.673 # [rad/s]
 wt.yaw = 0.
-# wt.tilt = 0.
-# wt.cone = 0.
+wt.tilt = 0.
+wt.cone = 0.
 
-wt.is_stiff = False
+wt.is_stiff = True
 
 wt.downwind_azimuth()
 wt.initilialise()
@@ -83,7 +83,7 @@ for i_m in range(wt.n_m):
 
 #%% Wind
 
-wind = WindBox.construct(wt, wt_file, t_max, delta_t*10, 8.0, turbulence_generator='windsimu_x32', shear_format='power_law', alpha=0.2, t_ramp=0., seed=seed)
+wind = WindBox.construct(wt, wt_file, t_max, delta_t*10, 8.0, turbulence_generator=None, shear_format='constant', alpha=0.2, t_ramp=0., seed=seed)
 
 #%%
 
@@ -130,7 +130,7 @@ print('The simulation took %0.3f [s]'%(t_end-t_start))
 folder = './' + case + '/'
 
 if (save_data_on):
-    sys('mkdir '+folder)
+    os.mkdir(folder)
     
     with open(folder+case+'.pkl', 'wb') as f:
         pickle.dump(['wt', 'BEM'], f)
@@ -141,4 +141,3 @@ if (save_data_on):
 #    _ = pickle.load(f)
 #    wt = pickle.load(f)
 #    BEM = pickle.load(f)
-
