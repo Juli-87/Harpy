@@ -16,7 +16,7 @@ t_start = time.time()
 
 #%%
 
-case = 'case_1.3'
+case = 'case_1.30'
 seed = -1
 save_data_on = True
 

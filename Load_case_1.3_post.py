@@ -67,3 +67,4 @@ P_avail = 0.5* rho * A_rot * u0**3
 Cp = P_harpy/P_avail
 
 print("Cp: "+str(np.mean(Cp[2:])))
+print("Shaft My: "+str((M_rot[3,1])))

@@ -11,6 +11,9 @@ with open(folder+case+'.pkl', 'rb') as f:
     BEM = pickle.load(f)
 	
 f_blade, f_gravity, f_inertia, M_rot, P_harpy = rotor_moment(wt, BEM)
+
+
+
 lift = BEM.l
 drag = BEM.d
 alpha = BEM.alpha
@@ -19,7 +22,7 @@ phi = BEM.phi
 
 fig1 = plt.figure()
 ax1_1 = fig1.add_subplot(1,1,1)
-ax1_1.plot(wt.z,lift[3,0,:])
+ax1_1.plot(wt.z,lift[3,0,:])    #3: Timestep; 0: Blade; ':': Radial Coordinate 'z'
 ax1_1.set_xlabel("z [m]")
 ax1_1.set_ylabel("Lift [N/m]")
 ax1_1.grid()
